@@ -35,7 +35,7 @@ class Keypad extends Component {
         <div className="row">
           <div className="input-field">
             <label htmlFor="keypad-input">Number: </label>
-            <input type="text" onChange={(e) => this.handleChange(e)} />
+            <input type="text" onChange={(e) => this.handleChange(e)} maxLength="7"/>
           </div>
         </div>
 
