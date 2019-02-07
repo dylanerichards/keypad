@@ -6,30 +6,45 @@ class Keypad extends Component {
     super(props)
 
     this.state = {
-      combinations: []
+      combinations: [],
+      number: ""
     }
   }
-    handleChange = (e) => {
-        axios.get('/combinations', {
-          params: {
-            number: e.target.value
-          }
-        })
-        .then((response) => {
-          const combinations = response.data
-          this.setState({ combinations })
-        })
-    }
+
+  handleChange = (e) => {
+    axios.get('/combinations', {
+      params: {
+        number: e.target.value
+      }
+    })
+    .then((response) => {
+      const combinations = response.data
+
+      this.setState((prevState, currentProps) => {
+        return { ...prevState, combinations }
+      })
+    })
+  }
 
   render() {
     return (
       <React.Fragment>
         <h1>Keypad</h1>
+        <h2>{this.state.number}</h2>
 
-        <label htmlFor="keypad-input">Number: </label>
-        <input type="text" onChange={(e) => this.handleChange(e)}/>
+        <div className="row">
+          <div className="input-field">
+            <label htmlFor="keypad-input">Number: </label>
+            <input type="text" onChange={(e) => this.handleChange(e)} />
+          </div>
+        </div>
 
-        {this.state.combinations.join(", ")}
+        <div>
+          <ul className="collection">
+            {this.state.combinations.map(combination => <li key={Math.random()} className="collection-item">{combination}</li>)}
+          </ul>
+        </div>
+
       </React.Fragment>
     )
   }
